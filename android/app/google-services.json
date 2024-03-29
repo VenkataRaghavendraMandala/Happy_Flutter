@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "677799411405",
+    "project_id": "happyflutter-fa201",
+    "storage_bucket": "happyflutter-fa201.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:677799411405:android:b707878a0eb0fd4c97b384",
+        "android_client_info": {
+          "package_name": "com.example.happy"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDe-ojERt0C9g9wxUzq_o6sOf_D-B5sWVQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
