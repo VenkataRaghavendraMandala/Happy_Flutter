@@ -1,4 +1,5 @@
 // ignore: depend_on_referenced_packages
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 // ignore: unused_import
 import 'package:happy/splash/dashhboard_screen.dart';
@@ -25,14 +26,26 @@ import 'package:happy/src/category_screen.dart';
 import 'package:happy/src/main_screen.dart';
 // ignore: unused_import
 import 'package:happy/src/netflix_screen.dart';
+// ignore: unused_import
+import 'package:happy/src/openweburl_screen.dart';
+import 'package:happy/src/otp_screen.dart';
+// ignore: unused_import
 import 'package:happy/src/payment_screen.dart';
 // ignore: unused_import
 import 'package:happy/src/person_settings_screen.dart';
 
 void main() async {
-  // WidgetsFlutterBinding.ensureInitialized();
+  WidgetsFlutterBinding.ensureInitialized();
   // await Firebase.initializeApp();
-  runApp(const MyApp());
+  await EasyLocalization.ensureInitialized();
+  runApp(EasyLocalization(
+      supportedLocales: const [
+        Locale("en"),
+        Locale("te"),
+      ],
+      path: "assets/translations",
+      fallbackLocale: const Locale("en"),
+      child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -43,6 +56,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
+      supportedLocales: context.supportedLocales,
+      localizationsDelegates: context.localizationDelegates,
+      locale: context.locale,
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -62,7 +79,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const PaymentScreen(),
+      home: const OTPScreen(),
     );
   }
 }

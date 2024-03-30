@@ -20,6 +20,7 @@ import 'package:happy/splash/notification_screen.dart';
 import 'package:happy/splash/tabbar_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
+import 'package:easy_localization/easy_localization.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -74,8 +75,8 @@ class LoginScreenState extends State<LoginScreen> {
                   child: Form(
                       child: Column(
                     children: [
-                      const Text("Login",
-                          style: TextStyle(
+                      Text("Login".tr(),
+                          style: const TextStyle(
                               fontSize: 20, fontWeight: FontWeight.bold)),
                       const SizedBox(height: 32),
                       TextFormField(
@@ -115,7 +116,10 @@ class LoginScreenState extends State<LoginScreen> {
                         padding: const EdgeInsets.symmetric(horizontal: 20),
                         child: MaterialButton(
                           minWidth: double.infinity,
-                          onPressed: () {},
+                          onPressed: () {
+                            const locale = Locale("te");
+                            context.setLocale(locale);
+                          },
                           child: const Text("Forgot Password",
                               style: TextStyle(
                                   fontSize: 18,
@@ -188,6 +192,8 @@ class LoginScreenState extends State<LoginScreen> {
     // if (emailTextController.text != "" &&
     //     nameTextController.text != "" &&
     //     passwordTextController.text != "") {
+    const locale = Locale("en");
+    context.setLocale(locale);
     if (email != "" && name != "" && password != "") {
       //signUp();
       // saveUserDetails(email, name, password);

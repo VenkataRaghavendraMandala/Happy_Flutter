@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 // ignore: unnecessary_import
 import 'package:flutter/widgets.dart';
@@ -72,8 +73,8 @@ class _YouTubeScreenState extends State<YouTubeScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisSize: MainAxisSize.max,
                       children: [
-                        Image.network(
-                          youTube.thumb,
+                        CachedNetworkImage(
+                          imageUrl: youTube.thumb,
                           fit: BoxFit.cover,
                           width: double.infinity,
                           height: 180,
