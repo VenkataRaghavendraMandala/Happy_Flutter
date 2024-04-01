@@ -4,6 +4,7 @@ import 'dart:convert';
 // ignore: unused_import
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 class Singleton {
   static final Singleton _singleton = Singleton._internal();
@@ -13,6 +14,14 @@ class Singleton {
   }
 
   Singleton._internal();
+
+  showLoader() {
+    EasyLoading.show(status: 'loading...');
+  }
+
+  hideLoader() {
+    EasyLoading.dismiss();
+  }
 
   showAlertMethod() {}
   showLoadertMethod() {}

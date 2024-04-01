@@ -5,10 +5,12 @@ import 'package:flutter/widgets.dart';
 import 'package:happy/apihelper/rest_api_handler_data.dart';
 // ignore: unused_import
 import 'package:happy/constanta/constants_images.dart';
+import 'package:happy/constanta/networkmanager.dart';
 import 'package:happy/constanta/urlendpoints.dart';
 import 'package:happy/model/youtube_model.dart';
 // ignore: unused_import
 import 'package:happy/src/netflix_screen.dart';
+import 'package:happy/src/videoplayer_screen.dart';
 
 class YouTubeScreen extends StatefulWidget {
   const YouTubeScreen({super.key});
@@ -43,13 +45,14 @@ class _YouTubeScreenState extends State<YouTubeScreen> {
         itemBuilder: (context, index) {
           final youTube = yuoTubeArr[index];
           return GestureDetector(
-            // onTap: () => Navigator.push(
-            //     context,
-            //     MaterialPageRoute(
-            //         builder: (context) =>
-            //             NetflixScreen(youTubeObj: yuoTubeArr[index])
-            //             )
-            //             ),
+            onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const VideoPlayerScreen(
+                          videoUrl:
+                              "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4",
+                        ))),
+            //youTubeObj: yuoTubeArr[index]
             child: SizedBox(
                 height: 300,
                 child: Padding(
@@ -109,9 +112,11 @@ class _YouTubeScreenState extends State<YouTubeScreen> {
   }
 
   getYouTubeDetails() async {
+    Singleton().showLoader();
     final response =
         await RestApiHandlerData.getYouTubeData(URLEndPoints.youTubeUrl);
     setState(() {
+      Singleton().hideLoader();
       yuoTubeArr = response;
     });
   }

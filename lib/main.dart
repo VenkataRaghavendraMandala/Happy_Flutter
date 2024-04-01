@@ -1,6 +1,7 @@
 // ignore: depend_on_referenced_packages
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 // ignore: unused_import
 import 'package:happy/splash/dashhboard_screen.dart';
 // ignore: unused_import
@@ -76,10 +77,13 @@ class MyApp extends StatelessWidget {
         //
         // This works for code too, not just values: Most code changes can be
         // tested with just a hot reload.
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        //colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        primarySwatch: Colors.green,
+        brightness: Brightness.light,
         useMaterial3: true,
       ),
-      home: const OTPScreen(),
+      home: const YouTubeScreen(),
+      builder: EasyLoading.init(),
     );
   }
 }

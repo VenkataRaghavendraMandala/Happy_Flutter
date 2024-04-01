@@ -73,3 +73,60 @@ class ApiBaseHelper {
     return responseJson;
   }
 }
+
+/*
+
+void uploadImage() async {
+    _showLoader();
+    var uri = Uri.parse(URLEndPoints.img_upload_url);
+    var imageModel = new ImageUploadResponse();
+    http.MultipartRequest request = http.MultipartRequest('POST', uri);
+    Map<String, String> headers = {
+      "authType": "Zeemart",
+      "Content-type": "multipart/form-data",
+      "supplierId": supplierID,
+      "mudra": mudra
+    };
+    request.headers.addAll(headers);
+    request.fields.addAll({"componentType": "PROFILE"});
+
+    request.files.add(await http.MultipartFile(
+      'multipartFiles',
+      _image.readAsBytes().asStream(),
+      _image.lengthSync(),
+      filename: basename(_image.path),
+      contentType: MediaType('image', 'jpeg'),
+    ));
+    print("request: " + request.toString());
+    // var imgUploadResponse = await request.send();
+    http.Response imgUploadResponse =
+        await http.Response.fromStream(await request.send());
+    print("response" + imgUploadResponse.statusCode.toString());
+    imageModel =
+        ImageUploadResponse.fromJson(json.decode(imgUploadResponse.body));
+    String fileUrl = imageModel.data.lstFiles.elementAt(0).fileUrl;
+    if (fileUrl.isNotEmpty) {
+      Map<String, String> headers = {
+        'Content-Type': 'application/json',
+        'authType': 'Zeemart',
+        'mudra': mudra,
+        'supplierId': supplierID
+      };
+      Map<String, String> queryParams = {'supplierId': supplierID};
+      String queryString = Uri(queryParameters: queryParams).query;
+      var requestUrl = URLEndPoints.get_specific_user_url + '?' + queryString;
+      final msg = jsonEncode({'logoURL': fileUrl, 'supplierId': supplierID});
+      var response = await http.put(requestUrl, headers: headers, body: msg);
+      print(response.body);
+      print(response.statusCode);
+      if (response.statusCode == 200) {
+        UpdateImageView(fileUrl);
+      } else {
+        _hideLoader();
+      }
+    } else {
+      _hideLoader();
+    }
+  }
+
+*/
