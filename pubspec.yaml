@@ -50,6 +50,15 @@ dependencies:
   flutter_otp_text_field: ^1.1.0+2
   flutter_easyloading: ^3.0.5
   video_player: ^2.8.3
+  camera:
+  connectivity:
+  provider:
+  image_picker:
+  flutter_image_compress: 
+  dio: ^4.0.0
+  flutter_cache_manager: ^3.2.0
+  google_maps_flutter: 
+  
   
 dev_dependencies:
   flutter_test:

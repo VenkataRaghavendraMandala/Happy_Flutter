@@ -21,24 +21,41 @@ import 'package:happy/splash/splash_page.dart';
 import 'package:happy/splash/tabbar_screen.dart';
 // ignore: unused_import
 import 'package:happy/splash/youtube_screen.dart';
+import 'package:happy/src/camera_screen.dart';
 // ignore: unused_import
 import 'package:happy/src/category_screen.dart';
+import 'package:happy/src/connectivity_screen.dart';
+import 'package:happy/src/connectivity_services/connectivity_service.dart';
+import 'package:happy/src/connectivity_services/connectivity_status.dart';
+import 'package:happy/src/downloadImages_screen.dart';
+import 'package:happy/src/downloadvideo_screen.dart';
+import 'package:happy/src/googlemaps_screen.dart';
 // ignore: unused_import
 import 'package:happy/src/main_screen.dart';
 // ignore: unused_import
 import 'package:happy/src/netflix_screen.dart';
 // ignore: unused_import
 import 'package:happy/src/openweburl_screen.dart';
+// ignore: unused_import
 import 'package:happy/src/otp_screen.dart';
 // ignore: unused_import
 import 'package:happy/src/payment_screen.dart';
+import 'package:happy/src/pdf_screen.dart';
 // ignore: unused_import
 import 'package:happy/src/person_settings_screen.dart';
+import 'package:happy/src/signin_screen.dart';
+import 'package:camera/camera.dart';
 
-void main() async {
+import 'dart:async';
+
+import 'package:provider/provider.dart';
+
+late List<CameraDescription> cameras;
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // await Firebase.initializeApp();
   await EasyLocalization.ensureInitialized();
+  cameras = await availableCameras();
   runApp(EasyLocalization(
       supportedLocales: const [
         Locale("en"),
@@ -55,38 +72,49 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      debugShowCheckedModeBanner: false,
-      supportedLocales: context.supportedLocales,
-      localizationsDelegates: context.localizationDelegates,
-      locale: context.locale,
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a purple toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
-        //colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        primarySwatch: Colors.green,
-        brightness: Brightness.light,
-        useMaterial3: true,
+    return StreamProvider(
+      create: (BuildContext context) {
+        ConnectivityService().connectionStatusController;
+      },
+      initialData: ConnectivityStatus.WiFi,
+      child: MaterialApp(
+        title: 'Flutter Demo',
+        debugShowCheckedModeBanner: false,
+        supportedLocales: context.supportedLocales,
+        localizationsDelegates: context.localizationDelegates,
+        locale: context.locale,
+        theme: ThemeData(
+          // This is the theme of your application.
+          //
+          // TRY THIS: Try running your application with "flutter run". You'll see
+          // the application has a purple toolbar. Then, without quitting the app,
+          // try changing the seedColor in the colorScheme below to Colors.green
+          // and then invoke "hot reload" (save your changes or press the "hot
+          // reload" button in a Flutter-supported IDE, or press "r" if you used
+          // the command line to start the app).
+          //
+          // Notice that the counter didn't reset back to zero; the application
+          // state is not lost during the reload. To reset the state, use hot
+          // restart instead.
+          //
+          // This works for code too, not just values: Most code changes can be
+          // tested with just a hot reload.
+          //colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          primarySwatch: Colors.green,
+          brightness: Brightness.light,
+          useMaterial3: true,
+        ),
+        home: const GoogleMapsScreen(),
+        builder: EasyLoading.init(),
       ),
-      home: const YouTubeScreen(),
-      builder: EasyLoading.init(),
     );
   }
 }
+
+/*
+
+CameraScreen(cameras: cameras)
+*/
 
 // class MyHomePage extends StatefulWidget {
 //   const MyHomePage({super.key, required this.title});
@@ -175,3 +203,5 @@ class MyApp extends StatelessWidget {
 //     );
 //   }
 // }
+
+//enum ConnectivityStatus { WiFi, Cellular, Offline }

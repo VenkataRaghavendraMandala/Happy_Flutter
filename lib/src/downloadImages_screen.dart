@@ -1,76 +1,62 @@
-// import 'package:flutter/material.dart';
+import 'dart:io';
+import 'dart:typed_data';
 
-// class DownloadImagesScreen extends StatefulWidget {
-//   const DownloadImagesScreen({super.key});
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:path_provider/path_provider.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
+import 'package:flutter/foundation.dart';
 
-//   @override
-//   State<DownloadImagesScreen> createState() => _DownloadImagesScreenState();
-// }
+class DownloadImagesScreen extends StatefulWidget {
+  const DownloadImagesScreen({super.key});
 
-// class _DownloadImagesScreenState extends State<DownloadImagesScreen> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return const Placeholder();
-//   }
+  @override
+  State<DownloadImagesScreen> createState() => _DownloadImagesScreenState();
+}
 
-// Future<void> _saveImage(BuildContext context) async {
-//     final scaffoldMessenger = ScaffoldMessenger.of(context);
-//     late String message;
+class _DownloadImagesScreenState extends State<DownloadImagesScreen> {
+  Future<void> downloadAndSaveImage(String imageUrl) async {
+    // Fetch image data from the URL
+    http.Response response = await http.get(Uri.parse(imageUrl));
+    Uint8List imageData = response.bodyBytes;
 
-//     try {
-//       // Download image
-//       final http.Response response = await http.get(
-//           Uri.parse(_url));
+    // Get the directory where we can save files
+    Directory directory = await getApplicationDocumentsDirectory();
+    String filePath = '${directory.path}/downloaded_image.jpg';
 
-//       // Get temporary directory
-//       final dir = await getTemporaryDirectory();
+    // Compress and save the image
+    File file = File(filePath);
+    if (kDebugMode) {
+      print(file);
+    }
+    file.writeAsBytesSync(await FlutterImageCompress.compressWithList(
+      imageData,
+      minHeight: 1920,
+      minWidth: 1080,
+      quality: 90,
+    ));
 
-//       // Create an image name
-//       var filename = '${dir.path}/SaveImage${random.nextInt(100)}.png';
+    // Show a message indicating the image is saved
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text('Image downloaded and saved to $filePath'),
+    ));
+  }
 
-//       // Save to filesystem
-//       final file = File(filename);
-//       await file.writeAsBytes(response.bodyBytes);
-
-//       // Ask the user to save it
-//       final params = SaveFileDialogParams(sourceFilePath: file.path);
-//       final finalPath = await FlutterFileDialog.saveFile(params: params);
-
-//       if (finalPath != null) {
-//         message = 'Image saved to disk';
-//       }
-//     } catch (e) {
-//       message = e.toString();
-//       scaffoldMessenger.showSnackBar(SnackBar(
-//         content: Text(
-//           message,
-//           style:  const TextStyle(
-//             fontSize: 12,
-//             color: Colors.white,
-//             fontWeight: FontWeight.bold,
-//           ),
-//         ),
-//         backgroundColor: const Color(0xFFe91e63),
-//       ));
-//     }
-
-//     if (message != null) {
-
-//       scaffoldMessenger.showSnackBar(SnackBar(
-//         content: Text(
-//           message,
-//           style:  const TextStyle(
-//             fontSize: 12,
-//             color: Colors.white,
-//             fontWeight: FontWeight.bold,
-//           ),
-//         ),
-//         backgroundColor: const Color(0xFFe91e63),
-//       ));
-
-//     }
-//   }
-
-
-
-// }
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Image Downloader'),
+      ),
+      body: Center(
+        child: ElevatedButton(
+          onPressed: () {
+            downloadAndSaveImage(
+                'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/images/ForBiggerFun.jpg'); // Replace with your image URL
+          },
+          child: const Text('Download Image'),
+        ),
+      ),
+    );
+  }
+}

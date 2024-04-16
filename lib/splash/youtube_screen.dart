@@ -21,10 +21,17 @@ class YouTubeScreen extends StatefulWidget {
 
 class _YouTubeScreenState extends State<YouTubeScreen> {
   List<YoutubeModel> yuoTubeArr = [];
-
+  String string = '';
+  final letter = 'http';
+  final newLetter = 'https';
   @override
   void initState() {
     super.initState();
+//     String string = 'string';
+// final letter='https';
+// final newLetter='https';
+
+    string = string.replaceAll(letter, newLetter);
     getYouTubeDetails();
   }
 
@@ -48,9 +55,8 @@ class _YouTubeScreenState extends State<YouTubeScreen> {
             onTap: () => Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => const VideoPlayerScreen(
-                          videoUrl:
-                              "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4",
+                    builder: (context) => VideoPlayerScreen(
+                          videoUrl: youTube.url.replaceAll(letter, newLetter),
                         ))),
             //youTubeObj: yuoTubeArr[index]
             child: SizedBox(
